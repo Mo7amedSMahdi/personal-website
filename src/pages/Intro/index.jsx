@@ -1,12 +1,6 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useState } from "react";
-import {
-  useAnimation,
-  motion,
-  useTransform,
-  useMotionValue,
-} from "framer-motion";
-import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
 import AnimatedText from "../../components/AnimatedText";
 
 const styles = {
@@ -37,16 +31,9 @@ const greetings = [
   "Ahoj",
 ];
 
-const bgColors = [
-  "hsl(108, 66%, 63%)",
-  "hsl(81, 58%, 70%)",
-  "hsl(0, 0%, 100%)",
-];
-
 const Index = () => {
   const [index, setIndex] = useState(0);
   const [replay, setReplay] = useState(true);
-  const placeholderText = [{ type: "heading1", text: "Framer Motion" }];
   const container = {
     visible: {
       transition: {
@@ -54,20 +41,6 @@ const Index = () => {
       },
     },
   };
-
-  const x = useMotionValue(index);
-  const xInput = [0, 1, 2];
-
-  // const background = useTransform(
-  //   x,
-  //   xInput,
-  //   [
-  //     "linear-gradient(180deg, #ff008c 0%, rgb(211, 9, 225) 100%)",
-  //     "linear-gradient(180deg, #7700ff 0%, rgb(68, 0, 255) 100%)",
-  //     "linear-gradient(180deg, rgb(230, 255, 0) 0%, rgb(3, 209, 0) 100%)",
-  //   ],
-  //   { ease: cubicBezier(0.17, 0.67, 0.83, 0.67) }
-  // );
 
   React.useEffect(() => {
     const interval = setInterval(() => {
@@ -86,26 +59,16 @@ const Index = () => {
 
   return (
     <Box sx={styles.container}>
-      {/* <GreetingAnimation greeting={greeting} /> */}
       <motion.div
-        style={styles.container}
-        animate={{
-          backgroundColor:
-            index > bgColors.length - 1 ? bgColors[0] : bgColors[index],
-        }}
-        transition={{ ease: [0.455, 0.03, 0.515, 0.955], duration: 0.85 }}
+        className="App"
+        initial="hidden"
+        // animate="visible"
+        animate={replay ? "visible" : "hidden"}
+        variants={container}
       >
-        <motion.div
-          className="App"
-          initial="hidden"
-          // animate="visible"
-          animate={replay ? "visible" : "hidden"}
-          variants={container}
-        >
-          <div className="container">
-            <AnimatedText type="heading1" text={greetings[index]} />
-          </div>
-        </motion.div>
+        <div className="container">
+          <AnimatedText type="heading1" text={greetings[index]} />
+        </div>
       </motion.div>
     </Box>
   );
